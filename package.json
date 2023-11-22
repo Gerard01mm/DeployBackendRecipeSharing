@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "axios": "^1.5.1",
+    "vue-multiselect": "^2.1.7"
+  }
+}
