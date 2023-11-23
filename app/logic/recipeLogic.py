@@ -38,7 +38,8 @@ def add_rating_logic(request):
         previous_rating = recipe.rating_list.pop(user_id)
         recipe.rating_list[user_id] = rating
         recipe.rating_average = (((
-                                          recipe.rating_average * recipe.rating_amount) - previous_rating) + rating) / recipe.rating_amount
+                                          recipe.rating_average * recipe.rating_amount) - previous_rating) + rating) \
+                                / recipe.rating_amount
         print(recipe.rating_average)
         recipe.save()
         return {'message': 'Rating updated.',
@@ -102,7 +103,9 @@ def get_list_recipes_by_query(query):
             # separate the string query by the string "%A2"
             if "%A2" in filters_order[1]:
                 list_filters = filters_order[1].split("%A2")
-                # iterate the list of filters and create a dictionary with the filters, setting the index as the value before the character "=" and the value after the character "=" as a list of values separated by the character "+"
+                # iterate the list of filters and create a dictionary with the filters, setting the index as the
+                # value before the character "=" and the value after the character "=" as a list of values separated
+                # by the character "+"
                 filters = {}
 
                 for filter in list_filters:
@@ -388,7 +391,9 @@ def get_list_recipes_by_query(query):
                 else:
 
                     list_filters = query.split("%A2")
-                    # iterate the list of filters and create a dictionary with the filters, setting the index as the value before the character "=" and the value after the character "=" as a list of values separated by the character "+"
+                    # iterate the list of filters and create a dictionary with the filters, setting the index as the
+                    # value before the character "=" and the value after the character "=" as a list of values
+                    # separated by the character "+"
                     filters = {}
 
                     for filter in list_filters:
@@ -484,7 +489,8 @@ def get_rating_by_id(recipe_id):
     try:
         recipe = Recipe.objects.get(id=recipe_id)  # Supongo que el campo para el ID de la receta se llama 'id'
         return {'rating_amount': recipe.rating_amount,
-                'rating_average': recipe.rating_average}  # Supongo que tienes un método toJson() en tu modelo Recipe para convertirlo en un diccionario.
+                'rating_average': recipe.rating_average}  # Supongo que tienes un método toJson() en tu modelo Recipe
+        # para convertirlo en un diccionario.
     except Recipe.DoesNotExist:
         return {'error': 'Recipe not found'}
 

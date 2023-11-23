@@ -79,7 +79,7 @@ class LoginView(TemplateView):
             email = data.get('email')
             password = data.get('password')
 
-            response_data = login_logic(username, email, password, request)
+            response_data = login_logic(username, email, password)
 
             if 'error' in response_data:
                 return JsonResponse(response_data, status=400)
