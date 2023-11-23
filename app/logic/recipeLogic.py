@@ -62,9 +62,9 @@ def get_all_recipes():
 
 
 def get_recipes_main():
-    recipes_rating = Recipe.objects.order_by("-rating_average")
+    recipes_rating = Recipe.objects.all().order_by("-rating_average")
     recipes_rating_list = [recipe.toJson() for recipe in recipes_rating]
-    recipes_recent = Recipe.objects.order_by("-creation_date")
+    recipes_recent = Recipe.objects.all().order_by("-creation_date")
     recipes_recent_list = [recipe.toJson() for recipe in recipes_recent]
     return {'recipes_rating': recipes_rating_list, 'recipes_recent': recipes_recent_list}
 
@@ -137,7 +137,7 @@ def get_list_recipes_by_query(query):
                         else:
                             f = filters[filter].replace("%20", " ")
                             recipes = recipes.exclude(allergens__contains=f)
-                    elif filter == "recipe_type":
+                    elif 
                         if isinstance(filters[filter], list):
                             final = None
                             for f in filters[filter]:
@@ -229,7 +229,7 @@ def get_list_recipes_by_query(query):
                     else:
                         f = filters[filter].replace("%20", " ")
                         recipes = recipes.exclude(allergens__contains=f)
-                elif filter == "recipe_type":
+                elif 
                     if isinstance(filters[filter], list):
                         final = None
                         for f in filters[filter]:
@@ -295,16 +295,16 @@ def get_list_recipes_by_query(query):
                 ordering = order.split("=")[1].split("+")[0]
 
                 if ordering in ["rate", "recent"]:
-
                     if ordering == "recent":
                         ordering = "creation_date"
                     elif ordering == "rate":
                         ordering = "rating_average"
+                    # return {'error': ordering}
 
                     if order.split("=")[1].split("+")[1] == "desc":
-                        recipes.order_by("-" + ordering)
+                        recipes = Recipe.objects.all().order_by("-" + ordering)
                     elif order.split("=")[1].split("+")[1] == "asc":
-                        recipes.order_by(ordering)
+                        recipes = Recipe.objects.all().order_by(ordering)
                     else:
                         return {'error': 'Query not valid.'}
                 else:
@@ -341,7 +341,7 @@ def get_list_recipes_by_query(query):
                         else:
                             f = filters[filter].replace("%20", " ")
                             recipes = recipes.exclude(allergens__contains=f)
-                    elif filter == "recipe_type":
+                    elif 
                         if isinstance(filters[filter], list):
                             final = None
                             for f in filters[filter]:
@@ -437,7 +437,7 @@ def get_list_recipes_by_query(query):
                             else:
                                 f = filters[filter].replace("%20", " ")
                                 recipes = recipes.exclude(allergens__contains=f)
-                        elif filter == "recipe_type":
+                        elif 
                             if isinstance(filters[filter], list):
                                 final = None
                                 for f in filters[filter]:
