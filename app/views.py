@@ -6,8 +6,9 @@ from django.views.generic import TemplateView
 from django.views.generic import View
 
 from app.logic.loginLogic import login_logic
-from app.logic.recipeLogic import add_comment_logic, add_rating_logic, get_list_recipes_by_query, get_recipe_by_id, \
-    get_recipes_main, recipe_logic, get_rating_by_id
+from app.logic.recipeLogic import add_comment_logic, add_rating_logic, \
+    get_list_recipes_by_query, get_recipe_by_id, get_recipes_main, \
+    recipe_logic, get_rating_by_id
 from app.logic.registerLogic import register_user
 from app.logic.userLogic import add_favorite_logic, get_user_by_username
 
@@ -109,9 +110,9 @@ class AddRecipeView(TemplateView):
             recipe_type = body.get("type")
             allergens = body.get("allergens")
             username_id = body.get("username_id")
-            response_data = recipe_logic(title, ingredients, instructions, prep_time, username_id, servings,
-                                         recipe_type, allergens,
-                                         request)
+            response_data = recipe_logic(title, ingredients, instructions,
+                                         prep_time, username_id, servings,
+                                         recipe_type, allergens, request)
 
             if 'error' in response_data:
                 return JsonResponse(response_data, status=400)
@@ -127,12 +128,15 @@ class QueryListRecipes(TemplateView):
 
     def get(self, request, query):
         if request.method == 'GET' and query is not None:
-            response_data = get_list_recipes_by_query(query)
+            if query == "recent" or query == "rate":
+                response_data = get_recipes_main(query)
+            else:
+                response_data = get_list_recipes_by_query(query)
 
             if 'error' in response_data:
-                return JsonResponse(response_data, status=400)
+                return JsonResponse(response_data, safe=False, status=400)
             else:
-                return JsonResponse(response_data, status=200)
+                return JsonResponse(response_data, safe=False, status=200)
         return JsonResponse({'error': 'Method not allowed.'}, status=405)
 
 
